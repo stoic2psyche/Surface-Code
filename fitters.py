@@ -1,22 +1,19 @@
-# -*- coding: utf-8 -*-
+# try relative import (works in notebook or when run via `-m`)
+try:
+    from .circuits import SurfaceCode
+except ImportError:
+    # fallback for direct execution (VS Code / script)
+    import sys
+    sys.path.insert(0, r'C:\Users\shrey\OneDrive\Documents\qec_surface_code')
+    from surface_code.circuits import SurfaceCode
 
-"""
-Graph decoder for surface codes
-"""
+# rest of your imports
 import copy
-import math
-from itertools import combinations, product
-from collections import defaultdict
-
+import warnings
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
-from qiskit import QuantumCircuit
-from qiskit import transpile
-
-from circuits import SurfaceCode
+from collections import defaultdict
 
 try:
     from qiskit_aer import AerSimulator
@@ -577,7 +574,7 @@ class GraphDecoder:
         nx.draw_networkx(G, pos)
         labels = nx.get_edge_attributes(G, edge_label)
         labels = {x: round(y, 3) for (x, y) in labels.items()}
-        nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
         plt.show()
 
     def graph_3D(self, G, edge_label, angle=[-116, 22]):
@@ -660,4 +657,5 @@ class GraphDecoder:
         ax.yaxis.pane.set_edgecolor("w")
         ax.zaxis.pane.set_edgecolor("w")
 
-        plt.show()
+        plt.show()       
+
